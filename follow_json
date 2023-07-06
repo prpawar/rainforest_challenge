@@ -1,0 +1,21 @@
+import requests
+
+URL = 'https://letsrevolutionizetesting.com/challenge.json'
+
+def make_call(url):
+    response = requests.get(url)
+    return response.json()
+
+def start_challenge(url):
+    response = make_call(url)
+    follow = response.get('follow')
+    
+    if follow:
+        follow_url = follow.replace('challenge?', 'challenge.json?')
+        return start_challenge(follow_url)
+    
+    return response
+
+result = start_challenge(URL)
+message = result['message']
+print(f"Result is: {message}")
